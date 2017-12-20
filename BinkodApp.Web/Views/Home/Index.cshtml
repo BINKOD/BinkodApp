@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Coming soon";
+}
+
+<style>
+    #commentslider p.author
+    {
+        margin:0 !important;
+    }
+    .commentslider .owl-wrapper-outer 
+    {
+        height: auto !important;
+    }
+</style>
+
+<div class="fullwidth clearfix">
+    <div id="topcontainer" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+
+        <p><span class="fa fa-signal"></span></p>
+        <h1><span>Progress</span><br />We are coming soon</h1>
+        <p>It's almost ready ... &nbsp;&nbsp; <a style="text-decoration: none;" href="mailto:binkod.info@gmail.com">BINKOD</a></p>
+
+    </div>
+</div>
+<div class="arrow-separator arrow-white"></div>
+
+<div class="fullwidth colour1 clearfix">
+    <div id="countdown" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 300, repeat: true}">
+        <div id="countdowncont" class="clearfix">
+            <ul id="countscript">
+                <li>
+                    <span class="days">00</span>
+                    <p>Days</p>
+                </li>
+                <li>
+                    <span class="hours">00</span>
+                    <p>Hours</p>
+                </li>
+                <li class="clearbox">
+                    <span class="minutes">00</span>
+                    <p>Minutes</p>
+                </li>
+                <li>
+                    <span class="seconds">00</span>
+                    <p>Seconds</p>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="fullwidth colour3 clearfix" style="padding:5px;">
+    <div id="quotecont" class="bodycontainer clearfix" data-uk-scrollspy="{cls:'uk-animation-fade', delay: 100, repeat: true}">
+        <div id="commentslider" class="owl-carousel">
+            
+            <div class="item">
+                <p><strong>@ViewBag.ip</strong></p>
+                <p class="author">Ip Address</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

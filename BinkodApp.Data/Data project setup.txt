@@ -1,0 +1,20 @@
+BinkodApp Data/Infrastructure Project:: (Class Liabrary project)
+REF. https://www.infragistics.com/community/blogs/b/dhananjay_kumar/posts/how-to-implement-the-repository-pattern-in-asp-net-mvc-application
+- Main purpose of Infrastructure project is to perform database operations. Besides database operations, 
+it can also consume web services, perform IO operations etc. 
+
+##Data/Infrastructure project may perform the following operations:
+- Database operations (eg. use Entity Framework)
+- Working with WCF and Web Services
+- IO operations
+
+Steps::
+1. Adding References
+- To add the Entity Framework, right click on the Data project and install it from Package Manager Window.
+- To add a reference of the BinkodApp.Core project, In the Reference Window, click on the Project tab and select BinkodApp.Core.
+
+##To create the database from the Core project domain entity, we need to perform these tasks:
+-Create DataContext class
+-Configure the connection string
+-Create DataBase Initalizer class to seed data in the database
+-Implement ITestRepsitory interface

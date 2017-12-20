@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Services";
+}
+
+<div>
+    <div class="col-md-12"  style=""></div>
+
+   
+
+    <div class="col-md-12">
+        Enter Number :
+        <input id="number" class="sb-search-input" placeholder="Enter number ..." type="number" value="">
+        <input id="toWords" class="sb-search-input" placeholder="Enter integer ..." type="button" value="Convert to words">
+        <p><span id="numberTo"></span></p>
+        
+    </div>
+
+    <div class="col-md-12" style="margin-top:55px !important;">
+        <div>
+            <a href="Service/Banks" id="" style="display:inline-block;text-decoration: none;">Search Banks Using IFSC Code</a>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#toWords').click(function () {
+            //debugger
+            var number = $('#number').val();
+            $.ajax({
+                url: '/Service/ConvertNumbers',
+                type: "POST",
+                dataType: 'json',
+                data: { number: number },
+                success: function (result) {
+                    //debugger
+                    if (result.success) {
+                        $('#numberTo').html(result.data);
+                    }
+                    else {
+                        $('#numberTo').html(result.data);
+                    }
+                },
+                error: function (err) {
+                    $('#numberTo').html(result.data);
+                }
+            });
+        });
+
+    });
+</script>
+

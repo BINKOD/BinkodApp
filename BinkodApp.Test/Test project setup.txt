@@ -1,0 +1,93 @@
+BinkodApp Test Project:: (Unit Test project)
+REF. https://www.infragistics.com/community/blogs/b/dhananjay_kumar/posts/how-to-implement-the-repository-pattern-in-asp-net-mvc-application
+
+The biggest advantage of Repository Pattern is the testability. 
+This allows us to unit test the various components without having dependencies on other components of the project. 
+For example, we have created the Repository class which performs the database operations 
+to verify correctness of the functionality, so we should unit test it. 
+We should also be able to write tests for the Repository class without any dependency on the web project or UI. 
+Since we are following the Repository Pattern, 
+we can write Unit Tests for the Data project without any dependency on the MVC project (UI).
+
+
+##To write Unit Tests for TestRepository class, let us add following references in the Test project.
+-Add Reference of BinkodApp.Core project
+-Add Reference of BinkodApp.Data project
+-Entity Framework package
+
+##Connection String:
+-Visual Studio always reads the config file of the running project. To test the Data project, we will run the Test project. 
+Hence the connection string should be part of the App.Config of the Test project. 
+Let us copy and paste the connection string from Data project in the Test project.
+
+SETUP:::
+
+We have added all the required references and copied the connection string. 
+Let’s go ahead now and set up the Test Class. We’ll create a Test Class with the name TestRepositoryTest. 
+Test Initialize is the function executed before the tests are executed. 
+We need to create instance of the ProductRepository class 
+and call the ProductDbInitalize class to seed the data before we run tests. 
+Test Initializer can be written as shown in the listing below:
+
+[TestClass]
+    public class ProductRepositoryTest
+    {
+        ProductRepository Repo; 
+ [TestInitialize]
+        public void TestSetup()
+        {
+            ProductInitalizeDB db = new ProductInitalizeDB();
+            System.Data.Entity.Database.SetInitializer(db);
+            Repo = new ProductRepository();
+        }
+    }
+Now we’ve written the Test Initializer. Now let write the very first test to verify whether ProductInitalizeDB class seeds two rows in the Product table or not. Since it is the first test we will execute, it will also verify whether the database gets created or not. So essentially we are writing a test:
+
+To verify database creation
+To verify number of rows inserted by the seed method of Product Database Initializer
+[TestMethod]
+        public void IsRepositoryInitalizeWithValidNumberOfData()
+        {
+            var result = Repo.GetProducts();
+            Assert.IsNotNull(result);
+            var numberOfRecords = result.ToList().Count;
+            Assert.AreEqual(2, numberOfRecords);
+        }
+As you can see, we’re calling the Repository GetProducts() function to fetch all the Products inserted 
+while creating the database. This test is actually verifying whether GetProducts() works as expected or not, 
+and also verifying database creation. In the Test Explorer window, we can run the test for verification.
+
+
+
+To run the test, first build the Test project, then from the top menu select Test->Windows-Test Explorer. 
+In the Test Explorer, we will find all the tests listed. Select the test and click on Run.
+
+Let’s go ahead and write one more test to verify Add Product operation on the Repository:
+
+ [TestMethod]
+        public void IsRepositoryAddsProduct()
+        {
+            Product productToInsert = new Product
+            {
+                Id = 3,
+                inStock = true,
+                Name = "Salt",
+                Price = 17
+
+            };
+            Repo.Add(productToInsert);
+            // If Product inserts successfully, 
+            //number of records will increase to 3 
+            var result = Repo.GetProducts();
+            var numberOfRecords = result.ToList().Count;
+            Assert.AreEqual(3, numberOfRecords);
+        }
+To verify insertion of the Product, we are calling the Add function on the Repository. 
+If Product gets added successfully, the number of records will increase to 3 from 2 and we are verifying that. 
+On running the test, we will find that the test has been passed.
+
+
+
+In this way, we can write tests for all the Database operations from the Product Repository class. 
+Now we are sure that we have implemented the Repository class correctly because tests are passing, 
+which means the Infrastructure and Core project can be used with any UI (in this case MVC) project.

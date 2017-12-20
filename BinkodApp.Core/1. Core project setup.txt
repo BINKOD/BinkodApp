@@ -1,0 +1,14 @@
+BinkodApp Core Project:: (Class Liabrary project)
+REF. https://www.infragistics.com/community/blogs/b/dhananjay_kumar/posts/how-to-implement-the-repository-pattern-in-asp-net-mvc-application
+
+-Domain entities & interface for db operations
+
+##Core project should contain:
+- Domain entities
+- Repository interfaces or database operations interfaces on domain entities
+- Domain specific data annotations
+
+##The core project can NOT contain:
+- Any external libraries for database operations
+- Business logic
+- Database operations code

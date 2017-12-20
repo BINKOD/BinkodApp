@@ -1,0 +1,36 @@
+Hangfire in C#
+
+Take advantage of Hangfire, an open source job scheduling framework, 
+to schedule fire-and-forget, recurring tasks in Web applications sans the need of a Windows Service.
+
+The ability to run without a Windows Service makes Hangfire a good choice over Quartz.Net. 
+Hangfire takes advantage of the request processing pipeline of ASP.Net for processing and executing jobs.
+
+You can install Hangfire via the NuGet Package Manager in Visual Studio. 
+Alternatively, you can also use the Package Manager Console to install the Hangfire library. 
+eg. PM > Install-Package HangFire -Version 1.6.17
+The default installation of Hangfire uses SQL Server for storing scheduling information.
+
+ 
+##Startup.cs file : Add following method::
+
+public void Configuration(IAppBuilder app)
+{
+    ConfigureAuth(app);
+	string connectionString = Convert.ToString(System.Configuration.ConfigurationManager.ConnectionStrings["HangfireConnection"]);
+    GlobalConfiguration.Configuration.UseSqlServerStorage(connectionString);
+ 
+	//create a background job using the Enqueue() method of the BackgroundJob class
+	//A delayed background job is one that waits (for the delay interval), then executes much the same way as a normal fire-and-forget background job. 
+	BackgroundJob.Schedule(() => Console.WriteLine("This background job would execute after a delay."), TimeSpan.FromMilliseconds(1000));
+	
+	//RecurringJob.AddOrUpdate<BinkodApp.Web.Helper.ScheduledJobs>("SendEmail", job => job.SendEmail(), Cron.MinuteInterval(240));
+    
+	app.UseHangfireDashboard();
+    app.UseHangfireServer();
+}
+
+
+Note that Hangfire stores your jobs in a persistent storage.
+you need to configure the storage before you start using Hangfire.
+You don’t need to create the tables in your database; Hangfire will do that for you automatically.

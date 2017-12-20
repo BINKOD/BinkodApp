@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Banks using Ifsc";
+}
+<style>
+    p {
+        margin: 0px !important;
+    }
+    #bnk {
+        font-weight:bold !important;
+        color: #16A085 !important;
+    }
+    b {
+        font-weight: bold !important;
+    }
+    #msg{
+         color: red !important;
+    }
+</style>
+
+<div>
+    <div class="col-md-12"  style=""></div>
+    
+    <div class="col-md-12">
+        Enter Bank IFSC Code :
+        <input id="ifsc" class="sb-search-input" placeholder="Enter Ifsc ..." type="Text" value="">
+        <input id="getBank" class="sb-search-input" style="display:inline-block;text-decoration: none;" type="button" onclick="banksByIFSC($('#ifsc').val());" value="Get Bank Detail">
+        <div id="bankDetail" style="margin-top:10px !important;"></div>
+    </div>
+
+
+
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+    });
+
+    function banksByIFSC(_ifsc) {
+        try {
+            debugger
+            var details = "";
+            $.ajax({
+                type: "GET",
+                url: 'https://ifsc.razorpay.com/' + _ifsc.trim(),
+                //Content-Type: application/x-www-form-urlencoded
+                success: function (data) {
+                    console.log(data)
+                    details +="<div class=\"col-md-12 table\"><p id='bnk'>BANK DETAIL :</p>";
+                    details += "<p><b>BANK: </b><span>" + data.BANK + "</span></p>";
+                    details += "<p><b>IFSC: </b><span>" + data.IFSC + "</span></p>";
+                    details += "<p><b>MICR: </b><span>" + data.MICR + "</span></p>";
+                    details += "<p><b>BRANCH: </b><span>" + data.BRANCH + "</span></p>";
+                    details += "<p><b>ADDRESS: </b><span>" + data.ADDRESS + "</span></p>";
+                    details += "<p><b>CONTACT: </b><span>" + data.CONTACT + "</span></p>";
+                    details += "<p><b>CITY: </b><span>" + data.CITY + "</span></p>";
+                    details += "<p><b>DISTRICT: </b><span>" + data.DISTRICT + "</span></p>";
+                    details += "<p><b>STATE: </b><span>" + data.STATE + "</span></p>";
+                    details += "</div>";
+                    $('div#bankDetail').empty();
+                    $('div#bankDetail').html(details);
+                },
+                error: function (e) {
+                    details += "<div class=\"col-md-12\">";
+                    details += "<p><b>Note: </b><span id='msg'>Please enter valid IFSC Code.</span></p>";
+                    details += "</div>";
+                    $('div#bankDetail').empty();
+                    $('div#bankDetail').html(details);
+                }
+            });
+        } catch (err) { }
+    }
+</script>
