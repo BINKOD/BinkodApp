@@ -13,6 +13,8 @@ namespace BinkodApp.Web.Controllers
         {
             try
             {
+                string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+                Common.ExceptionLog(baseUrl);
                 ViewBag.ip = Utils.GetIPAddress();
                 Dictionary<string, string> _SystemInfo = Utils.GetSystemInfo();
             }
@@ -24,7 +26,6 @@ namespace BinkodApp.Web.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Description page.";
-
             return View();
         }
 

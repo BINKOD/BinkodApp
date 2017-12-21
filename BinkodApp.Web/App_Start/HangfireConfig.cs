@@ -33,7 +33,14 @@ namespace BinkodApp.Web.App_Start
 
         public static void InitializeJobs()
         {
-            //RecurringJob.AddOrUpdate<BinkodApp.Web.Helper.ScheduledJobs>("SendEmail", job => job.SendEmail(), Cron.MinuteInterval(240));
+            try
+            {
+                //RecurringJob.AddOrUpdate<BinkodApp.Web.Helper.ScheduledJobs>("SendEmail", job => job.SendEmail(), Cron.MinuteInterval(240));
+                //Delete three month older files
+                string CronExpression = "* * */30 * *";
+                RecurringJob.AddOrUpdate<BinkodApp.Web.Helper.ScheduledJobs>("DeleteOlderFiles", job => job.DeleteOlderFiles(), CronExpression);
+            }
+            catch { }
         }
     }
 

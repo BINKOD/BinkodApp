@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -227,6 +228,28 @@ namespace BinkodApp.Core
             }
             words = words.Trim();
             return words;
+        }
+
+        public static String DateFormatForFilename()
+        {
+            return DateTime.Now.ToString("dd_MM_yyyy_HHmmss");
+        }
+
+        public static void DeleteFiles_ThreeMonthOlder()
+        {
+            try
+            {
+                string ScreenshotPath = HttpContext.Current.Server.MapPath("~/Images/Screenshots");
+                string[] files = Directory.GetFiles(ScreenshotPath);
+
+                foreach (string file in files)
+                {
+                    FileInfo _fileInfo = new FileInfo(file);
+                    if (_fileInfo.LastAccessTime < DateTime.Now.AddMonths(-3))
+                        _fileInfo.Delete();
+                }
+            }
+            catch (Exception ex) { }
         }
 
         #region  Encode/Decode into Base36

@@ -4,6 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Net.Mail;
 using System.Net;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
+using BinkodApp.Core;
 
 namespace BinkodApp.Web.Helper
 {
@@ -33,6 +38,11 @@ namespace BinkodApp.Web.Helper
                 //SmtpServer.Send(mail);
             }
             catch (Exception ex) { }
+        }
+
+        public void DeleteOlderFiles()
+        {
+            Utils.DeleteFiles_ThreeMonthOlder();
         }
     }
 }

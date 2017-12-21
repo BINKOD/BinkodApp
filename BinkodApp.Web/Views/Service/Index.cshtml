@@ -4,16 +4,12 @@
 }
 
 <div>
-    <div class="col-md-12"  style=""></div>
-
-   
 
     <div class="col-md-12">
         Enter Number :
         <input id="number" class="sb-search-input" placeholder="Enter number ..." type="number" value="">
         <input id="toWords" class="sb-search-input" placeholder="Enter integer ..." type="button" value="Convert to words">
         <p><span id="numberTo"></span></p>
-        
     </div>
    
     <div class="col-md-12" style="margin-top:55px !important;">
@@ -21,6 +17,15 @@
         <div>
             <a href="Service/Banks" id="" style="display:inline-block;text-decoration: none;">Search Banks Using IFSC Code</a>
         </div>
+    </div>
+
+    <div class="col-md-12" style="margin-top:5px !important;">
+        <hr />
+        <div>
+            <a href="#" id="Capture" style="display:inline-block;text-decoration: none;">Capture Screenshot</a>
+            <span id="CaptureNote" style="font-size: 15px;display: block;">NOTE: Click above to capture full screenshot of your monitor.</span>
+        </div>
+        <div class="loader" id="loader2" style="display:none;text-align:center;">Loading...</div>
     </div>
 
 </div>
@@ -44,10 +49,38 @@
                     }
                     else {
                         $('#numberTo').html(result.data);
-                    }
+                    }                    
                 },
                 error: function (err) {
                     $('#numberTo').html(result.data);
+                }
+            });
+        });
+
+        $('#Capture').click(function () {
+            debugger
+            $('#loader2').show();
+            $.ajax({
+                url: '/Service/CaptureScreen',
+                type: "POST",
+                success: function (result) {
+                    //debugger
+                    setTimeout(function () {
+                        $('#CaptureNote').empty();
+                        if (result.success) {
+                            $('#CaptureNote').html("Hooray! You did it! See desktop folder 'BinkodShot' for screenshot.");
+                        }
+                        else {
+                            $('#CaptureNote').html("ALERT:  Something went wrong, Please try again. Error: " + result.message);
+                            try { setTimeout(function () { window.open(result.url, "_blank"); }, 300); } catch (err) { }
+                        }
+                        $('#loader2').hide();
+                    }, 200);
+                },
+                error: function (err) {
+                    $('#CaptureNote').empty();
+                    $('#CaptureNote').html("ALERT:  Something went wrong, Please try again.");
+                    setTimeout(function () { $('#loader2').hide(); }, 200);
                 }
             });
         });

@@ -12,7 +12,7 @@ namespace BinkodApp.Web
             app.MapSignalR();
 
             BinkodApp.Web.App_Start.HangfireConfig.ConfigureHangfire(app);
-            //BinkodApp.Web.App_Start.HangfireConfig.InitializeJobs();
+            BinkodApp.Web.App_Start.HangfireConfig.InitializeJobs();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BinkodApp.Core;
+using BinkodApp.Web.Helper;
 
 namespace BinkodApp.Web.Controllers
 {
