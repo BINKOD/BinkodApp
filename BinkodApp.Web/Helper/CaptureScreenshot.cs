@@ -167,21 +167,12 @@ namespace BinkodApp.Web.Helper
                             var gfxScreenshot = Graphics.FromImage(bmpScreenshot);
                             gfxScreenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
 
-                            bmpScreenshot.Save("Screenshot.png", ImageFormat.Png);
+                            string fullpath = filepath + filename + "." + format.ToString();
+                            bmpScreenshot.Save(fullpath, format);
                         }
                         catch (Exception exp)
                         {
-                            Common.ExceptionLog(exp.Message + " - " + exp.StackTrace);
-                            try
-                            {
-                                string _log = "http://boredsilly.in/Content/Logs/" + "Log_" + DateTime.Now.ToString("dd_MM_yyyy") + ".txt";
-                                System.Diagnostics.Process.Start(_log);
-                            }
-                            catch (Exception _ex)
-                            {
-                                Common.ExceptionLog(_ex.Message + " - " + _ex.StackTrace);
-                                throw exp;
-                            }
+                            Common.ExceptionLog(exp.Message + " - " + exp.StackTrace);                            
                             throw exp;
                         }
                     }

@@ -13,14 +13,30 @@ namespace BinkodApp.Web.Controllers
         {
             try
             {
-                string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
-                Common.ExceptionLog(baseUrl);
                 ViewBag.ip = Utils.GetIPAddress();
-                Dictionary<string, string> _SystemInfo = Utils.GetSystemInfo();
+                //Dictionary<string, string> _SystemInfo = Utils.GetSystemInfo();
             }
             catch (Exception ex) { }
 
             return View();
+        }
+        public ActionResult Log()
+        {
+            string logURL = "http://boredsilly.in/Content/Logs/";
+            bool _success = true;
+            try
+            {
+                string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+                logURL = baseUrl.Contains("localhost") ? logURL : baseUrl + "Content/Logs/";
+                if (baseUrl.Contains("localhost")) _success = false;
+
+                ViewBag.ip = Utils.GetIPAddress();
+                Common.ExceptionLog("User Ip: " + Utils.GetIPAddress());
+            }
+            catch (Exception ex) { Common.ExceptionLog(ex.Message); }
+
+            logURL = logURL + "Log_" + DateTime.Now.ToString("dd_MM_yyyy") + ".txt";            
+            return Json(new { success = _success, message = logURL, JsonRequestBehavior.AllowGet });
         }
 
         public ActionResult About()

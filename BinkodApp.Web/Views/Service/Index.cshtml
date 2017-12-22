@@ -19,15 +19,15 @@
         </div>
     </div>
 
-    <div class="col-md-12" style="margin-top:5px !important;">
+    <div class="col-md-12" style="margin-top:5px !important;display:none;">
         <hr />
         <div>
             <a href="#" id="Capture" style="display:inline-block;text-decoration: none;">Capture Screenshot</a>
             <span id="CaptureNote" style="font-size: 15px;display: block;">NOTE: Click above to capture full screenshot of your monitor.</span>
-        </div>
-        <div class="loader" id="loader2" style="display:none;text-align:center;">Loading...</div>
+        </div>       
     </div>
 
+    <div class="loader" id="loader" style="display:none;text-align:center;">Loading...</div>
 </div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -36,6 +36,7 @@
 
         $('#toWords').click(function () {
             //debugger
+            $('#loader').show();
             var number = $('#number').val();
             $.ajax({
                 url: '/Service/ConvertNumbers',
@@ -44,22 +45,25 @@
                 data: { number: number },
                 success: function (result) {
                     //debugger
-                    if (result.success) {
-                        $('#numberTo').html(result.data);
-                    }
-                    else {
-                        $('#numberTo').html(result.data);
-                    }                    
+                    setTimeout(function () {
+                        if (result.success) {
+                            $('#numberTo').html(result.data);
+                        }
+                        else {
+                            $('#numberTo').html(result.data);
+                        }
+                    }, 200);
                 },
                 error: function (err) {
                     $('#numberTo').html(result.data);
+                    setTimeout(function () { $('#loader').hide(); }, 200);
                 }
             });
         });
 
         $('#Capture').click(function () {
-            debugger
-            $('#loader2').show();
+            //debugger
+            $('#loader').show();
             $.ajax({
                 url: '/Service/CaptureScreen',
                 type: "POST",
@@ -74,13 +78,13 @@
                             $('#CaptureNote').html("ALERT:  Something went wrong, Please try again. Error: " + result.message);
                             try { setTimeout(function () { window.open(result.url, "_blank"); }, 300); } catch (err) { }
                         }
-                        $('#loader2').hide();
+                        $('#loader').hide();
                     }, 200);
                 },
                 error: function (err) {
                     $('#CaptureNote').empty();
                     $('#CaptureNote').html("ALERT:  Something went wrong, Please try again.");
-                    setTimeout(function () { $('#loader2').hide(); }, 200);
+                    setTimeout(function () { $('#loader').hide(); }, 200);
                 }
             });
         });

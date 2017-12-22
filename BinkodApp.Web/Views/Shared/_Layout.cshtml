@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title | BINKOD</title>
+    <link href="~/Styles/Loader1.css" rel="stylesheet" />
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -29,19 +31,20 @@
             </div>
         </div>
     </div>*@
-    <div class="col-md-12" style="margin-top:10px;"></div>
-
-    
+    <div class="col-md-12" style="margin-top:10px;"></div>    
 
     <div class="container body-content">
         @RenderBody()
+
+        <div class="loader" id="loader1" style="display:none;text-align:center;">Loading...</div>
         <hr />
         <footer>
             <p>
                 &copy; @DateTime.Now.Year | <a style="text-decoration: none;" href="http://www.boredsilly.in/">BINKOD</a>
                 <span style="float:right;">
                     <a style="text-decoration: none;" href="/Service">Services</a> &nbsp;&nbsp;
-                    <a style="text-decoration: none;" href="mailto:binkod.info@gmail.com">Write to us</a>
+                    <a style="text-decoration: none;" href="mailto:binkod.info@gmail.com">Write to us</a>&nbsp;&nbsp;
+                    <a href="#" id="Log" style="text-decoration: none;">Log</a>
                </span>
             </p>
         </footer>
@@ -52,14 +55,42 @@
     @RenderSection("scripts", required: false)
 
     <link rel="stylesheet" href="~/Styles/style.css">
-    <link href="~/Styles/Loader1.css" rel="stylesheet" />
-    
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/js/countdown.js"></script>
     <script src="~/Scripts/js/owlcarousel.js"></script>
     <script src="~/Scripts/js/uikit.scrollspy.js"></script>
     <script src="~/Scripts/js/scripts.js"></script>
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
+    <script>
+    $(document).ready(function () {
+               
+        $('#Log').click(function () {
+            //debugger
+            $('#loader1').show();
+            $.ajax({
+                url: '/Home/Log',
+                type: "POST",
+                success: function (result) {
+                    //debugger
+                    if (result.success) {
+                        setTimeout(function () {
+                            try { window.open(result.message, "_blank"); } catch (err) { }
+                            $('#loader1').hide();
+                        }, 300);
+                    } else {
+                        setTimeout(function () { $('#loader1').hide(); }, 200);
+                    }
+                },
+                error: function (err) {
+                    setTimeout(function () { $('#loader1').hide(); }, 200);
+                }
+            });
+        });
+
+    });
+    </script>
 
 </body>
 </html>
