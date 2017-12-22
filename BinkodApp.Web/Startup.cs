@@ -9,10 +9,10 @@ namespace BinkodApp.Web
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            app.MapSignalR();
+            //app.MapSignalR();
 
-            BinkodApp.Web.App_Start.HangfireConfig.ConfigureHangfire(app);
-            BinkodApp.Web.App_Start.HangfireConfig.InitializeJobs();
+            //BinkodApp.Web.App_Start.HangfireConfig.ConfigureHangfire(app);
+            //BinkodApp.Web.App_Start.HangfireConfig.InitializeJobs();
         }
     }
 }

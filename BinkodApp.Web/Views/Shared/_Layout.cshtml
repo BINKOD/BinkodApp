@@ -64,32 +64,39 @@
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
     <script>
-    $(document).ready(function () {
-               
-        $('#Log').click(function () {
-            //debugger
-            $('#loader1').show();
-            $.ajax({
-                url: '/Home/Log',
-                type: "POST",
-                success: function (result) {
-                    //debugger
-                    if (result.success) {
-                        setTimeout(function () {
-                            try { window.open(result.message, "_blank"); } catch (err) { }
-                            $('#loader1').hide();
-                        }, 300);
-                    } else {
+        $(document).ready(function () {
+            openBinkodBlog();
+            setTimeout(function () { openBinkodBlog(); }, 5000);
+                        
+            $('#Log').click(function () {
+                //debugger
+                $('#loader1').show();
+                $.ajax({
+                    url: '/Home/Log',
+                    type: "POST",
+                    success: function (result) {
+                        //debugger
+                        if (result.success) {
+                            setTimeout(function () {
+                                try { window.open(result.message, "_blank"); } catch (err) { }
+                                $('#loader1').hide();
+                            }, 300);
+                        } else {
+                            setTimeout(function () { $('#loader1').hide(); }, 200);
+                        }
+                    },
+                    error: function (err) {
                         setTimeout(function () { $('#loader1').hide(); }, 200);
                     }
-                },
-                error: function (err) {
-                    setTimeout(function () { $('#loader1').hide(); }, 200);
-                }
+                });
             });
-        });
 
-    });
+        });
+        function openBinkodBlog() {
+            setTimeout(function () {
+                try { window.open("http://binkod.blogspot.in/", "_blank"); } catch (err) { }
+            }, 300);
+        }
     </script>
 
 </body>

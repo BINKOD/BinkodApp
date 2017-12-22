@@ -230,9 +230,55 @@ namespace BinkodApp.Core
             return words;
         }
 
+        public static String DateTimeFormatForFilename()
+        {
+            DateTime utcTime = DateTime.UtcNow;
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
+            return localTime.ToString("dd_MM_yyyy_HHmmss");
+        }
         public static String DateFormatForFilename()
         {
-            return DateTime.Now.ToString("dd_MM_yyyy_HHmmss");
+            DateTime utcTime = DateTime.UtcNow;
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
+            return localTime.ToString("dd_MM_yyyy");
+        }
+
+        public static String DateTimeFormatIST()
+        {
+            DateTime utcTime = DateTime.UtcNow;
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
+            return localTime.ToString();
+        }
+        public static String DateFormatIST()
+        {
+            DateTime utcTime = DateTime.UtcNow;
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
+            return localTime.ToLongDateString();
+        }
+        public static String TimeFormatIST()
+        {
+            DateTime utcTime = DateTime.UtcNow;
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
+            return localTime.ToLongTimeString();
+        }
+        public static String ShortDateFormatIST()
+        {
+            DateTime utcTime = DateTime.UtcNow;
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
+            return localTime.ToShortDateString();
+        }
+        public static String ShortTimeFormatIST()
+        {
+            DateTime utcTime = DateTime.UtcNow;
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
+            return localTime.ToShortTimeString();
         }
 
         public static void DeleteFiles_ThreeMonthOlder()

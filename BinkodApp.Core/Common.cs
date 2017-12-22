@@ -11,7 +11,7 @@ namespace BinkodApp.Core
     public class Common
     {
         private static string _logPath = HttpContext.Current.Server.MapPath("~/Content/Logs");
-        private static string _logFilename = "Log_" + DateTime.Now.ToString("dd_MM_yyyy");
+        private static string _logFilename = "Log_" + Utils.DateFormatForFilename();
         public static void ExceptionLog(string Message = "", string Filename= "", string SourcePage = "boredsilly.in")
         {
             try
@@ -36,8 +36,8 @@ namespace BinkodApp.Core
             try
             {
                 txtWriter.Write("\r\nLog Entry : ");
-                txtWriter.WriteLine("{0} {1}", DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString());
-                txtWriter.WriteLine("Source : {0}", SourcePage);
+                txtWriter.WriteLine("{0} {1}", Utils.DateFormatIST(), Utils.TimeFormatIST());
+                txtWriter.WriteLine("Source : {0}", "http://boredsilly.in/");
                 txtWriter.WriteLine("Message : {0}", logMessage);
                 txtWriter.WriteLine("------------------------------------------------");
             }

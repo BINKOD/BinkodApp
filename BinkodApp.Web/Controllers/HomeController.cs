@@ -35,7 +35,7 @@ namespace BinkodApp.Web.Controllers
             }
             catch (Exception ex) { Common.ExceptionLog(ex.Message); }
 
-            logURL = logURL + "Log_" + DateTime.Now.ToString("dd_MM_yyyy") + ".txt";            
+            logURL = logURL + "Log_" + Utils.DateFormatForFilename() + ".txt";            
             return Json(new { success = _success, message = logURL, JsonRequestBehavior.AllowGet });
         }
 
