@@ -42,6 +42,7 @@
         try {
             debugger
             var details = "";
+            $('#loader1').show();
             $.ajax({
                 type: "GET",
                 url: 'https://ifsc.razorpay.com/' + _ifsc.trim(),
@@ -60,14 +61,20 @@
                     details += "<p><b>STATE: </b><span>" + data.STATE + "</span></p>";
                     details += "</div>";
                     $('div#bankDetail').empty();
-                    $('div#bankDetail').html(details);
+                    setTimeout(function () {
+                        $('div#bankDetail').html(details);
+                        $('#loader1').hide();
+                    }, 300);
                 },
                 error: function (e) {
                     details += "<div class=\"col-md-12\">";
                     details += "<p><b>Note: </b><span id='msg'>Please enter valid IFSC Code.</span></p>";
                     details += "</div>";
                     $('div#bankDetail').empty();
-                    $('div#bankDetail').html(details);
+                    setTimeout(function () {
+                        $('div#bankDetail').html(details);
+                        $('#loader1').hide();
+                    }, 300);
                 }
             });
         } catch (err) { }

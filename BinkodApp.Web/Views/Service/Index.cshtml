@@ -9,7 +9,7 @@
         Enter Number :
         <input id="number" class="sb-search-input" placeholder="Enter number ..." type="number" value="">
         <input id="toWords" class="sb-search-input" placeholder="Enter integer ..." type="button" value="Convert to words">
-        <p><span id="numberTo"></span></p>
+        <p><span id="numberTo" style="display:none;"></span></p>
     </div>
    
     <div class="col-md-12" style="margin-top:55px !important;">
@@ -37,6 +37,7 @@
         $('#toWords').click(function () {
             //debugger
             $('#loader').show();
+            $('#numberTo').hide();
             var number = $('#number').val();
             $.ajax({
                 url: '/Service/ConvertNumbers',
@@ -52,10 +53,12 @@
                         else {
                             $('#numberTo').html(result.data);
                         }
+                        $('#numberTo').show();
+                        $('#loader').hide();
                     }, 200);
                 },
                 error: function (err) {
-                    $('#numberTo').html(result.data);
+                    $('#numberTo').hide();
                     setTimeout(function () { $('#loader').hide(); }, 200);
                 }
             });

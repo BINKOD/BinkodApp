@@ -21,7 +21,7 @@ namespace BinkodApp.Core
                 SqlDataAdapter _adp = new SqlDataAdapter(SQL, Conn);
                 _adp.Fill(_dt);
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { Common.ExceptionLog(ex.Message); }
             return _dt;
         }
 
@@ -33,7 +33,7 @@ namespace BinkodApp.Core
                 SqlDataAdapter _adp = new SqlDataAdapter(SQL, Conn);
                 _adp.Fill(_dt);
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { Common.ExceptionLog(ex.Message); }
             return _dt;
         }
     }

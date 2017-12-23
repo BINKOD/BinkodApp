@@ -7,6 +7,7 @@ using BinkodApp.Web;
 using BinkodApp.Web.Models;
 using BinkodApp.Web.Controllers;
 using BinkodApp.Web.Helper;
+using BinkodApp.Core;
 
 namespace BinkodApp.Web.Controllers
 {
@@ -27,6 +28,7 @@ namespace BinkodApp.Web.Controllers
             }
             catch (Exception ex)
             {
+                Common.ExceptionLog(ex.Message);
                 string _log = "http://boredsilly.in/Content/Logs/" + "Log_" + DateTime.Now.ToString("dd_MM_yyyy") + ".txt";
                 return Json(new { success = false, message = ex.Message, url = _log, JsonRequestBehavior.AllowGet });
             }

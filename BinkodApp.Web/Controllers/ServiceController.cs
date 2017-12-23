@@ -41,6 +41,7 @@ namespace BinkodApp.Web.Controllers
             }
             catch (Exception ex)
             {
+                Common.ExceptionLog(ex.Message);
                 return Json(new { success = false, data = "Please enter a valid number.", JsonRequestBehavior.AllowGet });
             }
         }

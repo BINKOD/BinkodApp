@@ -12,11 +12,10 @@ namespace BinkodApp.Web.Controllers
         public ActionResult Index()
         {
             try
-            {
+            {              
                 ViewBag.ip = Utils.GetIPAddress();
-                //Dictionary<string, string> _SystemInfo = Utils.GetSystemInfo();
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { Common.ExceptionLog(ex.Message); }
 
             return View();
         }
@@ -29,13 +28,11 @@ namespace BinkodApp.Web.Controllers
                 string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
                 logURL = baseUrl.Contains("localhost") ? logURL : baseUrl + "Content/Logs/";
                 if (baseUrl.Contains("localhost")) _success = false;
-
-                ViewBag.ip = Utils.GetIPAddress();
-                Common.ExceptionLog("User Ip: " + Utils.GetIPAddress());
+                Common.ExceptionLog("");
             }
             catch (Exception ex) { Common.ExceptionLog(ex.Message); }
 
-            logURL = logURL + "Log_" + Utils.DateFormatForFilename() + ".txt";            
+            logURL = logURL + "Log_" + Utils.DateFormatForFilename() + ".txt";
             return Json(new { success = _success, message = logURL, JsonRequestBehavior.AllowGet });
         }
 

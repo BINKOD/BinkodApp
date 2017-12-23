@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace BinkodApp.Core
             }
             catch (Exception ex)
             {
+                Common.ExceptionLog(ex.Message);
                 Dictionary<string, string> _ServerVariables = new Dictionary<string, string>();
                 foreach (var variable in HttpContext.Current.Request.ServerVariables.AllKeys)
                 {
@@ -35,41 +37,6 @@ namespace BinkodApp.Core
                 throw ex;
             }
         }
-
-        public static Dictionary<string, string> GetSystemInfo()
-        {
-            try
-            {
-                Dictionary<string, string> _SystemInfo = new Dictionary<string, string>();
-                _SystemInfo.Add("UserDomainName", System.Environment.UserDomainName);
-                _SystemInfo.Add("MachineName", System.Environment.MachineName);
-                _SystemInfo.Add("UserName", System.Environment.UserName);
-                _SystemInfo.Add("OSVersion", System.Environment.OSVersion.ToString());
-                _SystemInfo.Add("OSVersionNo", System.Environment.Version.ToString());
-                _SystemInfo.Add("SystemDirectory", System.Environment.SystemDirectory);
-
-                _SystemInfo.Add("CommandLine", System.Environment.CommandLine);
-                _SystemInfo.Add("CurrentDirectory", System.Environment.CurrentDirectory);
-                _SystemInfo.Add("CurrentManagedThreadId", System.Environment.CurrentManagedThreadId.ToString());
-                _SystemInfo.Add("ExitCode", System.Environment.ExitCode.ToString());
-                _SystemInfo.Add("Is64BitOperatingSystem", System.Environment.Is64BitOperatingSystem.ToString());
-                _SystemInfo.Add("Is64BitProcess", System.Environment.Is64BitProcess.ToString());
-                _SystemInfo.Add("NewLine", System.Environment.NewLine.ToString());
-                _SystemInfo.Add("ProcessorCount", System.Environment.ProcessorCount.ToString());
-                _SystemInfo.Add("StackTrace", System.Environment.StackTrace.ToString());
-                _SystemInfo.Add("SystemPageSize", System.Environment.SystemPageSize.ToString());
-                _SystemInfo.Add("TickCount", System.Environment.TickCount.ToString());
-                _SystemInfo.Add("UserInteractive", System.Environment.UserInteractive.ToString());
-                _SystemInfo.Add("WorkingSet", System.Environment.WorkingSet.ToString());
-
-                return _SystemInfo;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
         public static string DataTableToCSV(System.Data.DataTable table)
         {
             var result = new System.Text.StringBuilder();
@@ -96,7 +63,6 @@ namespace BinkodApp.Core
 
             return result.ToString();
         }
-
         public static string DataTableToJSONWithStringBuilder(System.Data.DataTable table)
         {
             var JSONString = new StringBuilder();
@@ -130,7 +96,6 @@ namespace BinkodApp.Core
             }
             return JSONString.ToString();
         }
-
         public static string NumberToWords(Int64 number)
         {
             if (number == 0)
@@ -197,7 +162,6 @@ namespace BinkodApp.Core
 
             return words;
         }
-
         public static string DecimalToWords(Decimal number, int multiplier = 100)
         {
             long fractionalPart = (long)((number - (long)number) * multiplier);
@@ -229,58 +193,48 @@ namespace BinkodApp.Core
             words = words.Trim();
             return words;
         }
-
         public static String DateTimeFormatForFilename()
         {
             DateTime utcTime = DateTime.UtcNow;
             TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
             DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
-            return localTime.ToString("dd_MM_yyyy_HHmmss");
+            return localTime.ToString("dd_MM_yyyy_hhmmsstt");
         }
         public static String DateFormatForFilename()
         {
             DateTime utcTime = DateTime.UtcNow;
             TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); 
             return localTime.ToString("dd_MM_yyyy");
         }
-
+        public static String FullDateTimeFormatIST()
+        {
+            DateTime utcTime = DateTime.UtcNow;
+            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); 
+            return localTime.ToString("dddd, dd MMMM yyyy hh:mm:ss tt");
+        }
         public static String DateTimeFormatIST()
         {
             DateTime utcTime = DateTime.UtcNow;
             TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
-            return localTime.ToString();
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); 
+            return localTime.ToString("dd/MM/yyyy hh:mm:ss tt");
         }
         public static String DateFormatIST()
         {
             DateTime utcTime = DateTime.UtcNow;
             TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
-            return localTime.ToLongDateString();
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); 
+            return localTime.ToString("dd/MM/yyyy");
         }
         public static String TimeFormatIST()
         {
             DateTime utcTime = DateTime.UtcNow;
             TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
-            return localTime.ToLongTimeString();
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); 
+            return localTime.ToString("hh:mm:ss tt");
         }
-        public static String ShortDateFormatIST()
-        {
-            DateTime utcTime = DateTime.UtcNow;
-            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
-            return localTime.ToShortDateString();
-        }
-        public static String ShortTimeFormatIST()
-        {
-            DateTime utcTime = DateTime.UtcNow;
-            TimeZoneInfo tzi = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
-            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tzi); // convert from utc to local
-            return localTime.ToShortTimeString();
-        }
-
         public static void DeleteFiles_ThreeMonthOlder()
         {
             try
@@ -297,6 +251,33 @@ namespace BinkodApp.Core
             }
             catch (Exception ex) { }
         }
+        public static string ConvertHashtableToString(Hashtable _Hashtable, string _Delimiter = ",")
+        {
+            return string.Join(_Delimiter, (from string name in _Hashtable.Keys select Convert.ToString(_Hashtable[name])).ToArray());
+        }
+        public static string ConvertListOfStringToString(IList<string> input, string _Delimiter = ",")
+        {
+            return string.Join(_Delimiter, input.ToArray());
+        }
+        public static string ConvertListOfIntToString(List<int> input, string _Delimiter = ",")
+        {
+            return ConvertListOfStringToString(input.ConvertAll<string>(x => x.ToString()), _Delimiter);
+        }
+        public static string ConvertToTitleString(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return string.Empty;
+            }
+            char[] _char = input.ToCharArray();
+            _char[0] = char.ToUpper(_char[0]);
+            return new string(_char);
+        }
+        public static string[] SplitString(string input, string _Splitter)
+        {
+            return input.Split(new string[] { _Splitter }, StringSplitOptions.None);
+        }
+
 
         #region  Encode/Decode into Base36
 
