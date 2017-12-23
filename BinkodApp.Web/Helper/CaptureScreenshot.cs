@@ -160,7 +160,7 @@ namespace BinkodApp.Web.Helper
                     }
                     catch (Exception ex)
                     {
-                        Common.ExceptionLog(ex.Message + " - " + ex.StackTrace);
+                        Common.ExceptionLog(ex.Message);
                         try
                         {
                             var bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
@@ -172,7 +172,7 @@ namespace BinkodApp.Web.Helper
                         }
                         catch (Exception exp)
                         {
-                            Common.ExceptionLog(exp.Message + " - " + exp.StackTrace);                            
+                            Common.ExceptionLog(exp.Message);                            
                             throw exp;
                         }
                     }
